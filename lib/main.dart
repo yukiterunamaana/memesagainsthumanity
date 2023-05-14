@@ -61,6 +61,15 @@ class MyScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 decoration: InputDecoration(
+                  labelText: 'Enter room ID if you have one',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(
                   labelText: 'Enter your nickname',
                   border: OutlineInputBorder(),
                 ),
@@ -68,7 +77,7 @@ class MyScreen extends StatelessWidget {
             ),
             ElevatedButton.icon(
               icon: Icon(Icons.check),
-              label: Text('Create game session'),
+              label: Text('Enter/Create game session'),
               onPressed: () {
                 Navigator.push(
                   context,
