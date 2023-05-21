@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memesagainsthumanity/resources/socket_methods.dart';
 
 const String _name = 'OtherUser';
 class ChatScreen extends StatefulWidget {
@@ -75,6 +76,7 @@ class ChatMessage extends StatelessWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = TextEditingController();
+  final SocketMethods _socketMethods = SocketMethods();
 
   bool _isComposing = false;
 
@@ -83,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Chat App',
+          'Chat App', //TODO выдавать номер комнаты!
         ),
       ),
       body: Column(

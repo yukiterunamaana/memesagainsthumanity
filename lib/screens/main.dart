@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'communication.dart';
+import 'package:memesagainsthumanity/resources/socket_methods.dart';
+import 'package:custom_button/custom_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,14 +76,17 @@ class MyScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+
             ElevatedButton.icon(
               icon: Icon(Icons.check),
               label: Text('Enter/Create game session'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatScreen()),
-                );
+                //TODO переписать логику (см. индийский туториал 1:02:34)
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ChatScreen()),
+                //);
               },
             ),
           ],
