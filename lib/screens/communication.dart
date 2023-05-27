@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:memesagainsthumanity/resources/socket_methods.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-const String _name = 'OtherUser';
+const String _name = 'OtherUser (0)';
 class ChatScreen extends StatefulWidget {
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -40,11 +41,11 @@ class ChatMessage extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              child: Text(
-                username.substring(0, 1),
-              ),
-            ),
+            // child: CircleAvatar(
+            //   child: Text(
+            //     username.substring(0, 1),
+            //   ),
+            // ),
           ),
           Expanded(
             child: Column(
@@ -77,8 +78,21 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = TextEditingController();
   final SocketMethods _socketMethods = SocketMethods();
+  late IO.Socket socket;
 
   bool _isComposing = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    socket = IO.io('http://localhost:4000',
+        IO.OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build());
+    socket.connect();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +173,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     ChatMessage message = ChatMessage(
       text: text,
-      username: 'User',
+      username: 'User (0)',
       isSent: true,
     );
     setState(() {
