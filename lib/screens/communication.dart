@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:memesagainsthumanity/resources/socket_methods.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+late IO.Socket socket;
 
 const String _name = 'OtherUser (0)';
 class ChatScreen extends StatefulWidget {
@@ -77,15 +81,12 @@ class ChatMessage extends StatelessWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = TextEditingController();
-  final SocketMethods _socketMethods = SocketMethods();
-  late IO.Socket socket;
 
   bool _isComposing = false;
 
   @override
   void initState() {
-    // TODO: implement initState
-    socket = IO.io('http://localhost:4000',
+    socket = IO.io('http://localhost:9000',
         IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
@@ -93,6 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.connect();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -181,3 +183,4 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 }
+
