@@ -5,7 +5,6 @@ import 'communication.dart';
 import 'globals.dart';
 void main() {
   runApp(new MyApp());
-  Globals.connect("ws://127.0.0.1:9000");
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        primarySwatch: Colors.grey,
       ),
       home: MyHomePage(),
     );
@@ -104,8 +103,9 @@ class MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.check),
               label: Text('Enter/Create game session'),
               onPressed: () {
-                WebSocketChannel channel = IOWebSocketChannel.connect("ws://127.0.0.1:9000");
-                //TODO переписать логику (см. индийский туториал 1:02:34)
+                Globals.connect("ws://127.0.0.1:9000");
+                //WebSocketChannel channel = IOWebSocketChannel.connect("ws://127.0.0.1:9000");
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ChatScreen()),

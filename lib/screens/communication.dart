@@ -43,14 +43,14 @@ class ChatMessage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 16.0),
-            // child: CircleAvatar(
-            //   child: Text(
-            //     username.substring(0, 1),
-            //   ),
-            // ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(right: 16.0),
+          //   // child: CircleAvatar(
+          //   //   child: Text(
+          //   //     username.substring(0, 1),
+          //   //   ),
+          //   // ),
+          // ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,9 +70,88 @@ class ChatMessage extends StatelessWidget {
                   padding: EdgeInsets.all(10.0),
                   child: Text(text),
                 ),
+                Visibility(
+                  visible: isSent,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text('+2'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text('+1'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text('-1'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text('-2'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                ),
+                )
               ],
             ),
           ),
+          // Expanded(
+          //   child: Row(
+          //     children: [
+          //       ElevatedButton(
+          //         onPressed: () {},
+          //         child: Text('+2'),
+          //         style: ElevatedButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.black,
+          //         ),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () {},
+          //         child: Text('+1'),
+          //         style: ElevatedButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.black,
+          //         ),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () {},
+          //         child: Text('-1'),
+          //         style: ElevatedButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.black,
+          //         ),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () {},
+          //         child: Text('-2'),
+          //         style: ElevatedButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.black,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -95,13 +174,25 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Chat App', //TODO выдавать номер комнаты!
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Chat App', //TODO выдавать номер комнаты!
+      //   ),
+      // ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(top: 20.0, right: 0), // Or adjust the values to your preference
+        child: Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              // Do something when the IconButton is pressed
+              showAlertDialog(context);
+            },
+          ),
         ),
       ),
       body: Column(
@@ -126,7 +217,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildTextComposer() {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor),
+      data: IconThemeData(color: Theme.of(context).colorScheme.secondary),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
@@ -182,5 +273,33 @@ class _ChatScreenState extends State<ChatScreen> {
       _messages.insert(0, message);
     });
   }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: Text("Exit game?"),
+      actions: [
+        ElevatedButton(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the alert dialog
+          },
+        ),
+        ElevatedButton(
+          child: Text("Yes"),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the alert dialog
+            Navigator.of(context).pushReplacementNamed('/'); // Navigate to the main screen
+          },
+        ),
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 }
 
