@@ -16,10 +16,17 @@ class ChatMessage extends StatelessWidget {
   final String username;
   final bool isSent;
 
+  String score="0";
+  /*
+  * final bool isPrompt;
+  * final string??? image;
+  * */
+
   ChatMessage({
-    required this.text,
+    required this.text, //or image???
     required this.username,
     required this.isSent,
+    //required this.isPrompt,
   });
 
   @override
@@ -43,14 +50,6 @@ class ChatMessage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // Container(
-          //   margin: EdgeInsets.only(right: 16.0),
-          //   // child: CircleAvatar(
-          //   //   child: Text(
-          //   //     username.substring(0, 1),
-          //   //   ),
-          //   // ),
-          // ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,36 +75,49 @@ class ChatMessage extends StatelessWidget {
                     child: Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                              score = updateScore(2);
+                            },
                           child: Text('+2'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            score = updateScore(1);
+                          },
                           child: Text('+1'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            score = updateScore(-1);
+                          },
                           child: Text('-1'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            score = updateScore(-2);
+                          },
                           child: Text('-2'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.black,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
                           ),
+                        ),
+                        Padding(padding: EdgeInsets.all(10.0),
+                          child:Text(
+                              score.toString(),
+                          )
                         ),
                       ],
                     ),
@@ -114,49 +126,146 @@ class ChatMessage extends StatelessWidget {
               ],
             ),
           ),
-          // Expanded(
-          //   child: Row(
-          //     children: [
-          //       ElevatedButton(
-          //         onPressed: () {},
-          //         child: Text('+2'),
-          //         style: ElevatedButton.styleFrom(
-          //           foregroundColor: Colors.white,
-          //           backgroundColor: Colors.black,
-          //         ),
-          //       ),
-          //       ElevatedButton(
-          //         onPressed: () {},
-          //         child: Text('+1'),
-          //         style: ElevatedButton.styleFrom(
-          //           foregroundColor: Colors.white,
-          //           backgroundColor: Colors.black,
-          //         ),
-          //       ),
-          //       ElevatedButton(
-          //         onPressed: () {},
-          //         child: Text('-1'),
-          //         style: ElevatedButton.styleFrom(
-          //           foregroundColor: Colors.white,
-          //           backgroundColor: Colors.black,
-          //         ),
-          //       ),
-          //       ElevatedButton(
-          //         onPressed: () {},
-          //         child: Text('-2'),
-          //         style: ElevatedButton.styleFrom(
-          //           foregroundColor: Colors.white,
-          //           backgroundColor: Colors.black,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
   }
+
+  String updateScore(int r)
+  {
+    return (int.parse(score)+r).toString();
+  }
 }
+//TODO make chat messages stateful to update scores
+/*
+class ChatMessageState extends StatefulWidget
+{
+  final String text;
+  final String username;
+  final bool isSent;
+
+  String score="0";
+  /*
+  * final bool isPrompt;
+  * final string??? image;
+  * */
+
+  ChatMessage({
+    required this.text, //or image???
+    required this.username,
+    required this.isSent,
+    //required this.isPrompt,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final BorderRadius radius = isSent
+        ? BorderRadius.only(
+      topLeft: Radius.circular(16.0),
+      bottomLeft: Radius.circular(16.0),
+      topRight: Radius.circular(16.0),
+    )
+        : BorderRadius.only(
+      topRight: Radius.circular(16.0),
+      bottomLeft: Radius.circular(16.0),
+      bottomRight: Radius.circular(16.0),
+    );
+
+    final Color color = isSent ? Colors.white : Colors.blue;
+
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  username,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 5.0),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: radius,
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(text),
+                ),
+                Visibility(
+                  visible: isSent,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            score = updateScore(2);
+                          },
+                          child: Text('+2'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            score = updateScore(1);
+                          },
+                          child: Text('+1'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            score = updateScore(-1);
+                          },
+                          child: Text('-1'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            score = updateScore(-2);
+                          },
+                          child: Text('-2'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: (isSent)?Colors.black:Colors.red,
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.all(10.0),
+                            child:Text(
+                              score.toString(),
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String updateScore(int r)
+  {
+    return (int.parse(score)+r).toString();
+  }
+}
+*/
+
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = TextEditingController();
