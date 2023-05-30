@@ -6,6 +6,38 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 late IO.Socket socket;
 
+enum React {posted, seen, cringe, ok, kek, rofl}
+
+class Reaction
+{
+  late String userID;
+  late String messageID;
+  late React r;
+  Reaction({required userID, required messageID, required r});
+}
+
+class Message
+{
+  late String userID;
+  late String room;
+  late String body;
+  late String messageID;
+  //image???
+  late List<Reaction> reactions;
+  Message({required user, required room, required body})
+  {
+    reactions.add(
+      new Reaction(
+        userID: user,
+        messageID: messageID,
+        r: new Reaction(userID: user,
+                        messageID: messageID,
+                        r: React.seen)
+      )
+    );
+  }
+}
+
 const String _name = 'OtherUser (0)';
 class ChatScreen extends StatefulWidget {
   @override
@@ -367,6 +399,11 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
+  void sendMessage(){}
+
+  void react(){}
+
 
   void _handleSubmitted(String text) {
     _textController.clear();
