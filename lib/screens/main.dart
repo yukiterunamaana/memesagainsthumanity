@@ -6,7 +6,7 @@ import 'package:web_socket_channel/io.dart';
 import 'communication.dart';
 import 'globals.dart';
 
-String ourwebsocket="ws://localhost:9000";
+import '../globals.dart';
 
 class Player
 {
@@ -170,14 +170,11 @@ class MyHomePageState extends State<MyHomePage> {
                 Globals.connect(ourwebsocket);
                 //WebSocketChannel channel = IOWebSocketChannel.connect(ourwebsocket);
                 player.name=nicknameController.text;
-
-                if (player.name!=null && player.roomID != -1) {
+                if (player.name != "" && player.roomID != -1) {
                   final json = {"nickname":player.name,"room_id":player.roomID};
                   final encodedJSON = jsonEncode(json);
                   sendMessage(encodedJSON);
-                  //sendMessage(_message);
                 }
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ChatScreen()),
@@ -189,11 +186,6 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       )
     );
-  }
-
-  void selectRoom(int r)
-  {
-    player.roomID=r;
   }
 
   void sendMessage(msg) {
@@ -221,7 +213,4 @@ class MyHomePageState extends State<MyHomePage> {
     // });
   }
 
-  //TODO
-  void sendReaction(msg,type) {}
-  void cancelReaction(msg,type) {}
 }

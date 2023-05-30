@@ -6,36 +6,54 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 late IO.Socket socket;
 
-enum React {posted, seen, cringe, ok, kek, rofl}
+//enum React {posted, seen, cringe, ok, kek, rofl}
+//it was decided to do just one reaction
 
-class Reaction
-{
-  late String userID;
-  late String messageID;
-  late React r;
-  Reaction({required userID, required messageID, required r});
-}
+// class Reaction
+// {
+//   late String userID;
+//   late String messageID;
+//   //late React r;
+//   Reaction({required userID, required messageID, required r});
+// }
 
 class Message
 {
   late String userID;
   late String room;
   late String body;
+  late List<String> liked;
+
   late String messageID;
+
+  Message({required user, required room, required body});
+  //{
+    // reactions.add(
+    //   new Reaction(
+    //     userID: user,
+    //     messageID: messageID,
+    //     r: new Reaction(userID: user,
+    //                     messageID: messageID,
+    //                     r: React.seen)
+    //   )
+    // );
+  //}
+
   //image???
-  late List<Reaction> reactions;
-  Message({required user, required room, required body})
-  {
-    reactions.add(
-      new Reaction(
-        userID: user,
-        messageID: messageID,
-        r: new Reaction(userID: user,
-                        messageID: messageID,
-                        r: React.seen)
-      )
-    );
-  }
+
+  // late List<Reaction> reactions;
+  // Message({required user, required room, required body})
+  // {
+  //   reactions.add(
+  //     new Reaction(
+  //       userID: user,
+  //       messageID: messageID,
+  //       r: new Reaction(userID: user,
+  //                       messageID: messageID,
+  //                       r: React.seen)
+  //     )
+  //   );
+  // }
 }
 
 const String _name = 'OtherUser (0)';
@@ -43,12 +61,13 @@ class ChatScreen extends StatefulWidget {
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
+//TODO make chat messages stateful to update scores
 class ChatMessage extends StatelessWidget {
   final String text;
   final String username;
   final bool isSent;
 
-  String score="0";
+  int score=0;
   /*
   * final bool isPrompt;
   * final string??? image;
@@ -106,46 +125,56 @@ class ChatMessage extends StatelessWidget {
                   child: Container(
                     child: Row(
                       children: [
-                        ElevatedButton(
+                        IconButton(
+                          icon: Icon(Icons.thumb_up_sharp),
                           onPressed: () {
-                              score = updateScore(2);
-                            },
-                          child: Text('+2'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(1);
+                            score++;
                           },
-                          child: Text('+1'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: (isSent)?Colors.black:Colors.red,
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(-1);
-                          },
-                          child: Text('-1'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(-2);
-                          },
-                          child: Text('-2'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //       score = updateScore(2);
+                        //     },
+                        //   child: Text('+2'),
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor: (isSent)?Colors.black:Colors.red,
+                        //   ),
+                        // ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     score = updateScore(1);
+                        //   },
+                        //   child: Text('+1'),
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor: (isSent)?Colors.black:Colors.red,
+                        //   ),
+                        // ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     score = updateScore(-1);
+                        //   },
+                        //   child: Text('-1'),
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor: (isSent)?Colors.black:Colors.red,
+                        //   ),
+                        // ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     score = updateScore(-2);
+                        //   },
+                        //   child: Text('-2'),
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor: (isSent)?Colors.black:Colors.red,
+                        //   ),
+                        // ),
                         Padding(padding: EdgeInsets.all(10.0),
                           child:Text(
                               score.toString(),
@@ -162,141 +191,12 @@ class ChatMessage extends StatelessWidget {
       ),
     );
   }
-
-  String updateScore(int r)
-  {
-    return (int.parse(score)+r).toString();
-  }
+  //
+  // String updateScore(int r)
+  // {
+  //   return (int.parse(score)+r).toString();
+  // }
 }
-//TODO make chat messages stateful to update scores
-/*
-class ChatMessageState extends StatefulWidget
-{
-  final String text;
-  final String username;
-  final bool isSent;
-
-  String score="0";
-  /*
-  * final bool isPrompt;
-  * final string??? image;
-  * */
-
-  ChatMessage({
-    required this.text, //or image???
-    required this.username,
-    required this.isSent,
-    //required this.isPrompt,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final BorderRadius radius = isSent
-        ? BorderRadius.only(
-      topLeft: Radius.circular(16.0),
-      bottomLeft: Radius.circular(16.0),
-      topRight: Radius.circular(16.0),
-    )
-        : BorderRadius.only(
-      topRight: Radius.circular(16.0),
-      bottomLeft: Radius.circular(16.0),
-      bottomRight: Radius.circular(16.0),
-    );
-
-    final Color color = isSent ? Colors.white : Colors.blue;
-
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  username,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5.0),
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: radius,
-                  ),
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(text),
-                ),
-                Visibility(
-                  visible: isSent,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(2);
-                          },
-                          child: Text('+2'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(1);
-                          },
-                          child: Text('+1'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(-1);
-                          },
-                          child: Text('-1'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            score = updateScore(-2);
-                          },
-                          child: Text('-2'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: (isSent)?Colors.black:Colors.red,
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(10.0),
-                            child:Text(
-                              score.toString(),
-                            )
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String updateScore(int r)
-  {
-    return (int.parse(score)+r).toString();
-  }
-}
-*/
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = <ChatMessage>[];
@@ -318,11 +218,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Chat App', //TODO выдавать номер комнаты!
-      //   ),
-      // ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(top: 20.0, right: 0), // Or adjust the values to your preference
         child: Align(
@@ -377,7 +272,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 controller: _textController,
                 onChanged: (String text) {
                   setState(() {
-                    _isComposing = text.length > 0;
+                    _isComposing = text != "" ;
                   });
                 },
                 onSubmitted: _handleSubmitted,
@@ -400,10 +295,12 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  //TODO
   void sendMessage(){}
-
-  void react(){}
-
+  //TODO
+  void like(){}
+  //TODO
+  void unlike() {}
 
   void _handleSubmitted(String text) {
     _textController.clear();
