@@ -278,13 +278,13 @@ class _ChatScreenState extends State<ChatScreen> {
     AlertDialog alert = AlertDialog(
       content: Text("Exit game?"),
       actions: [
-        ElevatedButton(
+        TextButton(
           child: Text("No"),
           onPressed: () {
             Navigator.of(context).pop(); // Close the alert dialog
           },
         ),
-        ElevatedButton(
+        TextButton(
           child: Text("Yes"),
           onPressed: () {
             Navigator.of(context).pop(); // Close the alert dialog
