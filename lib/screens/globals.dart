@@ -1,6 +1,6 @@
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/io.dart';
-
+String ourwebsocket="ws://localhost:9000";
 class Globals
 {
   //static var channel;
@@ -23,4 +23,9 @@ class Globals
       },
     );
   }
+}
+class Player
+{
+  int roomID = -1;
+  String name = "";
 }

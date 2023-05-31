@@ -6,29 +6,6 @@ import 'package:web_socket_channel/io.dart';
 import 'communication.dart';
 import 'globals.dart';
 
-import '../globals.dart';
-
-class Player
-{
-  int roomID = -1;
-  String name = "";
-}
-// class RoomButton extends StatefulWidget
-// {
-//   //RoomButton({required super.onPressed, required super.child});
-//
-//   RoomButton({required int i, required super.onPressed, required super.child})
-//   {
-//
-//   }
-//
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     throw UnimplementedError();
-//   }
-// }
-
 void main() {
   runApp(new MyApp());
 }
@@ -56,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 class MyHomePageState extends State<MyHomePage> {
   //const MyScreen({super.key});
-  Player player = new Player();
+  Player player = Player();
   TextEditingController nicknameController = new TextEditingController();
   @override
   void dispose() {
@@ -64,34 +41,6 @@ class MyHomePageState extends State<MyHomePage> {
     nicknameController.dispose();
     super.dispose();
   }
-  //
-  // Flex roomButtonRow = Flex(
-  //   direction: Axis.horizontal,
-  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //   children: [
-  //     ElevatedButton(
-  //       onPressed: () {player.roomID=1;},
-  //       child: Text('1'),
-  //     ),
-  //     ElevatedButton(
-  //       onPressed: () {player.roomID=2;},
-  //       child: Text('2'),
-  //     ),
-  //     ElevatedButton(
-  //       onPressed: () {player.roomID=3;},
-  //       child: Text('3'),
-  //     ),
-  //     ElevatedButton(
-  //       onPressed: () {player.roomID=4;},
-  //       child: Text('4'),
-  //     ),
-  //     ElevatedButton(
-  //       onPressed: () {player.roomID=5;},
-  //       child: Text('5'),
-  //     ),
-  //   ],
-  // );
-
 
   @override
   Widget build(BuildContext context) {

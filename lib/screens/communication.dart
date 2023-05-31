@@ -1,59 +1,21 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'globals.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 late IO.Socket socket;
 
-//enum React {posted, seen, cringe, ok, kek, rofl}
-//it was decided to do just one reaction
-
-// class Reaction
-// {
-//   late String userID;
-//   late String messageID;
-//   //late React r;
-//   Reaction({required userID, required messageID, required r});
-// }
-
 class Message
 {
-  late String userID;
-  late String room;
+  late Player p;
   late String body;
-  late List<String> liked;
-
-  late String messageID;
-
-  Message({required user, required room, required body});
-  //{
-    // reactions.add(
-    //   new Reaction(
-    //     userID: user,
-    //     messageID: messageID,
-    //     r: new Reaction(userID: user,
-    //                     messageID: messageID,
-    //                     r: React.seen)
-    //   )
-    // );
-  //}
-
-  //image???
-
-  // late List<Reaction> reactions;
-  // Message({required user, required room, required body})
-  // {
-  //   reactions.add(
-  //     new Reaction(
-  //       userID: user,
-  //       messageID: messageID,
-  //       r: new Reaction(userID: user,
-  //                       messageID: messageID,
-  //                       r: React.seen)
-  //     )
-  //   );
-  // }
+}
+class Reaction
+{
+  late Player p;
+  late String msgID;
 }
 
 const String _name = 'OtherUser (0)';
@@ -94,7 +56,8 @@ class ChatMessage extends StatelessWidget {
       bottomRight: Radius.circular(16.0),
     );
 
-    final Color color = isSent ? Colors.white : Colors.blue;
+    final Color textColor = isSent ? Colors.white : Colors.black;
+    final Color bgColor = isSent ? Colors.blue : Colors.white;
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
@@ -114,7 +77,7 @@ class ChatMessage extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 5.0),
                   decoration: BoxDecoration(
-                    color: color,
+                    color: bgColor,
                     borderRadius: radius,
                   ),
                   padding: EdgeInsets.all(10.0),
@@ -343,6 +306,5 @@ class _ChatScreenState extends State<ChatScreen> {
       },
     );
   }
-
 }
 
