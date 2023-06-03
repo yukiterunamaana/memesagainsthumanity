@@ -33,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 class MyHomePageState extends State<MyHomePage> {
   //const MyScreen({super.key});
-  Player player = Player();
   TextEditingController nicknameController = new TextEditingController();
   @override
   void dispose() {
@@ -139,27 +138,19 @@ class MyHomePageState extends State<MyHomePage> {
 
   void sendMessage(msg) {
     IOWebSocketChannel? channel;
-    // We use a try - catch statement, because the connection might fail.
     try {
-      // Connect to our backend.
       channel = IOWebSocketChannel.connect(ourwebsocket);
     } catch (e) {
-      // If there is any error that might be because you need to use another connection.
       print("Error on connecting to websocket: " + e.toString());
     }
-    // Send message to backend
     channel?.sink.add(msg);
-    // Listen for any message from backend
-
-    // channel?.stream.listen((event) {
-    //   // Just making sure it is not empty
-    //   if (event!.isNotEmpty)
-    //   {
-    //     print(jsonDecode(event));
-    //     // Now only close the connection and we are done here!
-    //     channel!.sink.close();
-    //   }
-    // });
+    channel?.stream.listen((event) {
+      if (event!.isNotEmpty)
+      {
+        print(jsonDecode(event));
+        channel!.sink.close();
+      }
+    });
   }
 
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
@@ -182,13 +183,12 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(top: 20.0, right: 0), // Or adjust the values to your preference
+        padding: EdgeInsets.only(top: 20.0, right: 0),
         child: Align(
           alignment: Alignment.topRight,
           child: IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
-              // Do something when the IconButton is pressed
               showAlertDialog(context);
             },
           ),
@@ -247,9 +247,21 @@ class _ChatScreenState extends State<ChatScreen> {
               margin: EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                 icon: Icon(Icons.send),
-                onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
-                    : null,
+                onPressed:()
+                //_isComposing? () => _handleSubmitted(_textController.text): null,
+                {
+                  Globals.connect(ourwebsocket);
+                  final messageJSON = {
+                    "nickname":player.name,
+                    "room_id":player.roomID,
+                    "body": _textController.text,
+                    "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+                    "liked": [],
+                  };
+                  final encodedJSON = jsonEncode(messageJSON);
+                  sendMessage(encodedJSON);
+                  print(_messages);
+                }
               ),
             ),
           ],
@@ -259,7 +271,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   //TODO
-  void sendMessage(){}
+  void sendMessage(String encodedJSON){}
   //TODO
   void like(){}
   //TODO
@@ -272,7 +284,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     ChatMessage message = ChatMessage(
       text: text,
-      username: 'User (0)',
+      username: player.name,
       isSent: true,
     );
     setState(() {

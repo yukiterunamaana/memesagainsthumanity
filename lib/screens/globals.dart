@@ -11,7 +11,6 @@ class Globals
     channel = IOWebSocketChannel.connect(address);
     channel!.stream.listen(
           (event) {
-        //_setData(json.decode(event));
         print(event);
       },
       onDone: () {
@@ -29,3 +28,4 @@ class Player
   int roomID = -1;
   String name = "";
 }
+Player player = Player();
